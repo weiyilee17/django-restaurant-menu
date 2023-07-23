@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <h1>Restaurant Menu</h1>
+    <!--gets context[key] value and shows on html -->
+    {% for single_category in category %}
+        <ul class="list-group list-group-flush">
+        <!-- .1 is like [1] -->
+        <h3 class="pt-5">{{ single_category.1 }}</h3>
+        <!-- {model class name}_list is a special keyword that django recognizes -->
+        {% for dish in dish_list %}
+            {% if dish.category == single_category.0 %}
+                {% if dish.availability == 0 %}
+                <li class="list-group-item d-flex justify-content-between align-items-center border-0 pb-0">
+                    <a href="{% url 'dish_detail_page' dish.pk %}"><h5><del>{{dish.name}}</del></h5></a>
+                    <span class="badge bg-primary rounded-pill">{{dish.price}}</span>
+                </li>
+                {% else %}
+                <li class="list-group-item d-flex justify-content-between align-items-center border-0 pb-0">
+                    <a href="{% url 'dish_detail_page' dish.pk %}"><h5>{{dish.name}}</h5></a>
+                    <span class="badge bg-primary rounded-pill">{{dish.price}}</span>
+                </li>
+                {% endif %}
+                <li class="list-group-item pt-0">
+                    <p>{{dish.ingredients}}</p>
+                </li>
+            {% endif %}
+        {% endfor %}
+        </ul>
+    {% endfor %}
+</div>
+
+{% endblock content %}
